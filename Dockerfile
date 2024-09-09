@@ -23,7 +23,7 @@ RUN apt-get update \
 RUN mkdir -p /opt/programs && mkdir -p /opt/bin
 
 FROM build AS vt
-# install vt
+WORKDIR /opt/programs
 RUN git clone --branch 0.577 https://github.com/atks/vt.git
 WORKDIR /opt/programs/vt
 RUN make
