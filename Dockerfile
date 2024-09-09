@@ -25,23 +25,23 @@ WORKDIR /opt/programs
 
 FROM build AS vt
 # install vt
-RUN git clone --branch 0.577 https://github.com/atks/vt.git \
-    && cd vt \
-    && make \
-    && mv vt /opt/bin/vt
+RUN git clone --branch 0.577 https://github.com/atks/vt.git
+RUN cd vt
+RUN make
+RUN mv vt /opt/bin/vt
 
 FROM build AS wrangler
 # install MIPWrangler
-RUN cd /opt/bin/ \
-    && git clone --branch develop https://github.com/bailey-lab/MIPWrangler.git \
-    && cd MIPWrangler && ./install.sh 20
+RUN cd /opt/bin/
+RUN git clone --branch develop https://github.com/bailey-lab/MIPWrangler.git
+RUN cd MIPWrangler && ./install.sh 20
 RUN rm -rf /opt/bin/MIPWrangler/external/build/
 
 FROM build AS parasight
 # install parasight
-RUN cd /opt/programs \
-    && git clone --branch v7.6 https://github.com/bailey-lab/parasight.git \
-    && cp parasight/parasight.pl /opt/bin/
+RUN cd /opt/programs
+RUN git clone --branch v7.6 https://github.com/bailey-lab/parasight.git
+RUN cp parasight/parasight.pl /opt/bin/
 
 FROM build AS basespace
 # install basespace cli
