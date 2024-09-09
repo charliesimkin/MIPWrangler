@@ -21,25 +21,25 @@ RUN apt-get update \
 
 # create a programs directory for building and a bin directory for finished binaries
 RUN mkdir -p /opt/programs && mkdir -p /opt/bin
-WORKDIR /opt/programs
 
 FROM build AS vt
 # install vt
 RUN git clone --branch 0.577 https://github.com/atks/vt.git
-RUN cd vt
+WORKDIR /opt/programs/vt
 RUN make
 RUN mv vt /opt/bin/vt
 
 FROM build AS wrangler
 # install MIPWrangler
-RUN cd /opt/bin/
+WORKDIR /opt/bin
 RUN git clone --branch develop https://github.com/bailey-lab/MIPWrangler.git
-RUN cd MIPWrangler && ./install.sh 20
+WORKDIR /opt/bin/MIPWrangler
+RUN ./install.sh 20
 RUN rm -rf /opt/bin/MIPWrangler/external/build/
 
 FROM build AS parasight
 # install parasight
-RUN cd /opt/programs
+WORKDIR /opt/programs
 RUN git clone --branch v7.6 https://github.com/bailey-lab/parasight.git
 RUN cp parasight/parasight.pl /opt/bin/
 
