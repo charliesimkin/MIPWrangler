@@ -17,7 +17,8 @@ RUN apt-get update \
     git \
     python3 \
     wget \
-    zlib1g-dev
+    zlib1g-dev \
+    libterm-readline-gnu-perl
 
 # create a programs directory for building and a bin directory for finished binaries
 RUN mkdir -p /opt/programs && mkdir -p /opt/bin
@@ -26,7 +27,9 @@ FROM build AS vt
 WORKDIR /opt/programs
 RUN git clone --branch 0.577 https://github.com/atks/vt.git
 WORKDIR /opt/programs/vt
+RUN git submodule update --init --recursive
 RUN make
+RUN make test
 RUN mv vt /opt/bin/vt
 
 FROM build AS wrangler
